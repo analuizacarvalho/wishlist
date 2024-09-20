@@ -61,6 +61,7 @@ Este é um projeto que utiliza **Spring Boot** para criar uma API REST de gerenc
 |--------|---------------------|---------------------------|------------------|
 | GET    | `/api/products`      | Lista todos os produtos  | Sim              |
 
+
 ### Wishlist
 
 | Método | Endpoint                           | Descrição                                                     | Necessario Token |
@@ -74,12 +75,13 @@ Este é um projeto que utiliza **Spring Boot** para criar uma API REST de gerenc
 
 Para os endpoint que precisam de autenticação, o token deve ir como **Bearer Token**.
 
-Ex:
+Ex de curl:
 
-Prefixo: Bearer
-
-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0aGFpYW5lcmliZWlyb0BnbWFpbC5jb20iLCJpc3MiOiJsdWl6YWxhYnMtYXBpIiwiZXhwIjoxNzI2ODA2NzYwfQ.1JnMO4F1f-7wsT5PO2x_xnfQfHSJZi_mVsSfmE4XZ7k
-
+curl --request GET \
+--url http://localhost:8080/api/products \
+--header 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ2aW5pY2l1c0BnbWFpbC5jb20iLCJpc3MiOiJsdWl6YWxhYnMtYXBpIiwiZXhwIjoxNzI2ODEwNjE4fQ.vVjVKsyDxYJV0mh6yDUfRpAjfK5vcEWZQtwln4mWZlI' \
+--header 'User-Agent: insomnia/10.0.0' \
+--cookie JSESSIONID=485D0706F53A2163130799A16FB9D4BF
 
 ## Configuração do Banco de Dados
 
@@ -89,6 +91,7 @@ O projeto está configurado para usar o banco de dados **MongoDB** Atlas, sendo 
     ```properties
     spring.data.mongodb.uri
     ```
+Obs: Já existe uma lista cadastrada de produtos no banco. Fique a vontade para utilizar ao testar a funcionalidade.
 
 ## Testes
 
