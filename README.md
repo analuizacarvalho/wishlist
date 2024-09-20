@@ -31,13 +31,13 @@ Este é um projeto que utiliza **Spring Boot** para criar uma API REST de gerenc
     git clone https://github.com/analuizacarvalho/wishlist.git
     ```
 
-2. Importe no Intellij:
+2. Importe no Intellij.
  
 3. Execute o :
    ```bash
    mvn clean install
    
-4. Crie um Application simples e execute
+4. Crie um Application e execute.
 
 5. A aplicação estará disponível em `http://localhost:8080`.
 
