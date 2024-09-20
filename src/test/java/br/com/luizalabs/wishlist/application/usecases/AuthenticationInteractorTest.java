@@ -58,7 +58,9 @@ public class AuthenticationInteractorTest {
         when(userGateway.findUserByEmail(EMAIL)).thenReturn(Optional.empty());
         when(messageHelper.getMessage(AUTHENTICATION_ERROR_CODE)).thenReturn(AUTHENTICATION_ERROR);
         when(messageHelper.getMessage(USER_NOT_FOUND_ERROR_CODE)).thenReturn(USER_NOT_FOUND_ERROR);
-        assertThrows(UnauthorizedException.class, () -> authenticationInteractor.login(EMAIL, DECODED_PASSWORD));
+
+        UnauthorizedException unauthorizedException = assertThrows(UnauthorizedException.class, () -> authenticationInteractor.login(EMAIL, DECODED_PASSWORD));
+        assertEquals(USER_NOT_FOUND_ERROR, unauthorizedException.getMessage());
     }
 
     @Test
@@ -69,13 +71,16 @@ public class AuthenticationInteractorTest {
         when(userGateway.findUserByEmail(EMAIL)).thenReturn(user);
         when(authenticationGateway.validatePassword(DECODED_PASSWORD, ENCODED_PASSWORD)).thenReturn(false);
         when(messageHelper.getMessage(AUTHENTICATION_ERROR_CODE)).thenReturn(AUTHENTICATION_ERROR);
-        assertThrows(UnauthorizedException.class, () -> authenticationInteractor.login(EMAIL, DECODED_PASSWORD));
+
+        UnauthorizedException unauthorizedException = assertThrows(UnauthorizedException.class, () -> authenticationInteractor.login(EMAIL, DECODED_PASSWORD));
+        assertEquals(AUTHENTICATION_ERROR, unauthorizedException.getMessage());
     }
 
     @Test
     void should_return_unauthorized_exception_when_generic_error() {
         when(userGateway.findUserByEmail(EMAIL)).thenThrow(RuntimeException.class);
         when(messageHelper.getMessage(AUTHENTICATION_ERROR_CODE)).thenReturn(AUTHENTICATION_ERROR);
-        assertThrows(UnauthorizedException.class, () -> authenticationInteractor.login(EMAIL, DECODED_PASSWORD));
+        UnauthorizedException unauthorizedException = assertThrows(UnauthorizedException.class, () -> authenticationInteractor.login(EMAIL, DECODED_PASSWORD));
+        assertEquals(AUTHENTICATION_ERROR, unauthorizedException.getMessage());
     }
 }

@@ -46,6 +46,7 @@ public class UserInteractorTest {
         when(userGateway.createUser(newUser)).thenReturn(savedUser);
 
         User responseUser = userInteractor.createUser(newUser);
+
         assertEquals(USER_ID, responseUser.id());
         verify(userGateway).findUserByEmail(EMAIL);
     }
@@ -59,7 +60,8 @@ public class UserInteractorTest {
         when(userGateway.findUserByEmail(EMAIL)).thenReturn(Optional.of(existingUser));
         when(messageHelper.getMessage(DUPLICATE_EMAIL_ERROR_CODE)).thenReturn(DUPLICATE_EMAIL_ERROR);
 
-        assertThrows(UserAlreadyExistsException.class, () -> userInteractor.createUser(newUser));
+        UserAlreadyExistsException userAlreadyExistsException = assertThrows(UserAlreadyExistsException.class, () -> userInteractor.createUser(newUser));
+        assertEquals(DUPLICATE_EMAIL_ERROR, userAlreadyExistsException.getMessage());
     }
 
     @Test
@@ -71,7 +73,8 @@ public class UserInteractorTest {
         when(userGateway.createUser(newUser)).thenThrow(RuntimeException.class);
         when(messageHelper.getMessage(USER_SAVE_ERROR_CODE)).thenReturn(USER_SAVE_ERROR);
 
-        assertThrows(UseCaseException.class, () -> userInteractor.createUser(newUser));
+        UseCaseException useCaseException = assertThrows(UseCaseException.class, () -> userInteractor.createUser(newUser));
+        assertEquals(USER_SAVE_ERROR, useCaseException.getMessage());
     }
 
 }

@@ -33,11 +33,20 @@ public class WishInteractorTest {
 
     private static final String USER_ID = "userId";
     private static final String PRODUCT_ID = "productId";
-    private static final String EMAIL = "email@gmail.com";
-    private static final String DUPLICATE_EMAIL_ERROR_CODE = "error.duplicate.email";
-    private static final String DUPLICATE_EMAIL_ERROR = "E-mail já usado em outro cadastro";
-    private static final String USER_SAVE_ERROR = "Erro ao salvar usuário";
-    private static final String USER_SAVE_ERROR_CODE = "error.save.user";
+    private static final String FIND_WISHLIST_ERROR_CODE = "error.find.wishlist";
+    private static final String FIND_WISHLIST_ERROR = "Erro ao buscar Wishlist";
+    private static final String PRODUCT_NOT_FOUND_ERROR_CODE = "error.product.not.found";
+    private static final String PRODUCT_NOT_FOUND_ERROR = "Produto não encontrado";
+    private static final String PRODUCT_ALREADY_IN_WISHLIST_ERROR_CODE = "error.product.already.in.wish.list";
+    private static final String PRODUCT_ALREADY_IN_WISHLIST_ERROR = "O Produto já está adicionado a sua Wishlist";
+    private static final String SIZE_WISHLIST_EXCEEDED_ERROR_CODE = "error.size.wishlist.exceeded";
+    private static final String SIZE_WISHLIST_EXCEEDED_ERROR = "Limite de 20 produtos excedidos em sua Wishlist";
+    private static final String SAVE_PRODUCT_WISHLIST_ERROR_CODE = "error.save.product.wishlist";
+    private static final String SAVE_PRODUCT_WISHLIST_ERROR = "Erro ao salvar produto na Wishlist";
+    private static final String REMOVE_PRODUCT_WISHLIST_ERROR_CODE = "error.remove.product.wishlist";
+    private static final String REMOVE_PRODUCT_WISHLIST_ERROR = "Erro ao remover o produto de sua Wishlist";
+    private static final String VERIFY_EXISTS_PRODUCT_WISHLIST_ERROR_CODE = "error.verify.exists.product.wishlist";
+    private static final String VERIFY_EXISTS_PRODUCT_WISHLIST_ERROR = "Erro ao verificar se o produto existe em sua Wishlist";
 
     @InjectMocks
     WishInteractor wishInteractor;
@@ -70,9 +79,9 @@ public class WishInteractorTest {
     @Test
     void should_return_use_case_exception_when_generic_error_when_get_all_wishlist_products() {
         when(wishGateway.findAllWishes(USER_ID)).thenThrow(RuntimeException.class);
-        when(messageHelper.getMessage("error.find.wishlist")).thenReturn("Erro ao buscar Wishlist");
+        when(messageHelper.getMessage(FIND_WISHLIST_ERROR_CODE)).thenReturn(FIND_WISHLIST_ERROR);
         UseCaseException useCaseException = assertThrows(UseCaseException.class, () -> wishInteractor.findAllWishes(USER_ID));
-        assertEquals("Erro ao buscar Wishlist", useCaseException.getMessage());
+        assertEquals(FIND_WISHLIST_ERROR, useCaseException.getMessage());
     }
 
     @Test
@@ -89,10 +98,10 @@ public class WishInteractorTest {
     @Test
     void should_return_product_not_found_exception_when_product_not_exists() {
         when(productGateway.findProductById(PRODUCT_ID)).thenReturn(Optional.empty());
-        when(messageHelper.getMessage("error.product.not.found")).thenReturn("Produto não encontrado");
+        when(messageHelper.getMessage(PRODUCT_NOT_FOUND_ERROR_CODE)).thenReturn(PRODUCT_NOT_FOUND_ERROR);
 
         ProductNotFoundException exception = assertThrows(ProductNotFoundException.class, () -> wishInteractor.addProductToWishlist(USER_ID, PRODUCT_ID));
-        assertEquals("Produto não encontrado", exception.getMessage());
+        assertEquals(PRODUCT_NOT_FOUND_ERROR, exception.getMessage());
     }
 
     @Test
@@ -103,10 +112,10 @@ public class WishInteractorTest {
         when(wish.productId()).thenReturn(PRODUCT_ID);
         when(productGateway.findProductById(PRODUCT_ID)).thenReturn(Optional.of(product));
         when(wishGateway.findAllWishes(USER_ID)).thenReturn(List.of(wish));
-        when(messageHelper.getMessage("error.product.already.in.wish.list")).thenReturn("O Produto já está adicionado a sua Wishlist");
+        when(messageHelper.getMessage(PRODUCT_ALREADY_IN_WISHLIST_ERROR_CODE)).thenReturn(PRODUCT_ALREADY_IN_WISHLIST_ERROR);
 
         ProductAlreadyInWishlistException exception = assertThrows(ProductAlreadyInWishlistException.class, () -> wishInteractor.addProductToWishlist(USER_ID, PRODUCT_ID));
-        assertEquals("O Produto já está adicionado a sua Wishlist", exception.getMessage());
+        assertEquals(PRODUCT_ALREADY_IN_WISHLIST_ERROR, exception.getMessage());
     }
 
     @Test
@@ -120,10 +129,10 @@ public class WishInteractorTest {
 
         when(productGateway.findProductById(PRODUCT_ID)).thenReturn(Optional.of(product));
         when(wishGateway.findAllWishes(USER_ID)).thenReturn(wishes);
-        when(messageHelper.getMessage("error.size.wishlist.exceeded")).thenReturn("Limite de 20 produtos excedidos em sua Wishlist");
+        when(messageHelper.getMessage(SIZE_WISHLIST_EXCEEDED_ERROR_CODE)).thenReturn(SIZE_WISHLIST_EXCEEDED_ERROR);
 
         MaxListSizeExceededException exception = assertThrows(MaxListSizeExceededException.class, () -> wishInteractor.addProductToWishlist(USER_ID, PRODUCT_ID));
-        assertEquals("Limite de 20 produtos excedidos em sua Wishlist", exception.getMessage());
+        assertEquals(SIZE_WISHLIST_EXCEEDED_ERROR, exception.getMessage());
     }
 
     @Test
@@ -135,10 +144,10 @@ public class WishInteractorTest {
                 .when(wishGateway).addWish(any(Wish.class));
 
         when(wishGateway.findAllWishes(USER_ID)).thenReturn(Lists.newArrayList());
-        when(messageHelper.getMessage("error.save.product.wishlist")).thenReturn("Erro ao salvar produto na Wishlist");
+        when(messageHelper.getMessage(SAVE_PRODUCT_WISHLIST_ERROR_CODE)).thenReturn(SAVE_PRODUCT_WISHLIST_ERROR);
 
         UseCaseException exception = assertThrows(UseCaseException.class, () -> wishInteractor.addProductToWishlist(USER_ID, PRODUCT_ID));
-        assertEquals("Erro ao salvar produto na Wishlist", exception.getMessage());
+        assertEquals(SAVE_PRODUCT_WISHLIST_ERROR, exception.getMessage());
     }
 
     @Test
@@ -151,19 +160,19 @@ public class WishInteractorTest {
     void should_return_use_case_exception_when_generic_error_to_remove_wish() {
         doThrow(new RuntimeException())
                 .when(wishGateway).removeWishByUserIdAndProductId(USER_ID, PRODUCT_ID);
-        when(messageHelper.getMessage("error.remove.product.wishlist")).thenReturn("Erro ao remover o produto de sua Wishlist");
+        when(messageHelper.getMessage(REMOVE_PRODUCT_WISHLIST_ERROR_CODE)).thenReturn(REMOVE_PRODUCT_WISHLIST_ERROR);
 
         UseCaseException exception = assertThrows(UseCaseException.class, () -> wishInteractor.removeProductFromWishlist(USER_ID, PRODUCT_ID));
-        assertEquals("Erro ao remover o produto de sua Wishlist", exception.getMessage());
+        assertEquals(REMOVE_PRODUCT_WISHLIST_ERROR, exception.getMessage());
     }
 
     @Test
     void should_return_product_not_find_exception_when_generic_error_to_remove_wish() {
-        doThrow(new ProductNotFoundException("Produto não encontrado"))
+        doThrow(new ProductNotFoundException(PRODUCT_NOT_FOUND_ERROR))
                 .when(wishGateway).removeWishByUserIdAndProductId(USER_ID, PRODUCT_ID);
 
         ProductNotFoundException exception = assertThrows(ProductNotFoundException.class, () -> wishInteractor.removeProductFromWishlist(USER_ID, PRODUCT_ID));
-        assertEquals("Produto não encontrado", exception.getMessage());
+        assertEquals(PRODUCT_NOT_FOUND_ERROR, exception.getMessage());
     }
 
     @ParameterizedTest
@@ -177,10 +186,10 @@ public class WishInteractorTest {
     @Test
     void should_return_use_case_exception_when_error_to_verify_if_exists_product_wishlist() {
         when(wishGateway.existsWishByUserIdAndProductId(USER_ID, PRODUCT_ID)).thenThrow(RuntimeException.class);
-        when(messageHelper.getMessage("error.verify.exists.product.wishlist")).thenReturn("Erro ao verificar se o produto existe em sua Wishlist");
+        when(messageHelper.getMessage(VERIFY_EXISTS_PRODUCT_WISHLIST_ERROR_CODE)).thenReturn(VERIFY_EXISTS_PRODUCT_WISHLIST_ERROR);
 
         UseCaseException exception = assertThrows(UseCaseException.class, () -> wishInteractor.productIdExistsInWishlist(USER_ID, PRODUCT_ID));
-        assertEquals("Erro ao verificar se o produto existe em sua Wishlist", exception.getMessage());
+        assertEquals(VERIFY_EXISTS_PRODUCT_WISHLIST_ERROR, exception.getMessage());
     }
 
 }

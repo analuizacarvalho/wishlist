@@ -5,13 +5,13 @@ import br.com.luizalabs.wishlist.domain.entity.User;
 import br.com.luizalabs.wishlist.infrastructure.security.TokenService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-public class AutenticationServiceGateway implements AuthenticationGateway {
+public class AuthenticationServiceGateway implements AuthenticationGateway {
 
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
-    public AutenticationServiceGateway(PasswordEncoder passwordEncoder,
-                                       TokenService tokenService) {
+    public AuthenticationServiceGateway(PasswordEncoder passwordEncoder,
+                                        TokenService tokenService) {
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
     }

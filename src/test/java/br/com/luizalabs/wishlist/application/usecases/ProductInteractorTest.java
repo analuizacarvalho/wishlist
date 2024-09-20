@@ -49,7 +49,8 @@ public class ProductInteractorTest {
     void should_return_use_case_exception_when_generic_error() {
         when(productGateway.findAllProducts()).thenThrow(RuntimeException.class);
         when(messageHelper.getMessage(ERROR_FIND_PRODUCT_CODE)).thenReturn(ERROR_FIND_PRODUCT);
-        assertThrows(UseCaseException.class, () -> productInteractor.getAllProducts());
+        UseCaseException useCaseException = assertThrows(UseCaseException.class, () -> productInteractor.getAllProducts());
+        assertEquals(ERROR_FIND_PRODUCT, useCaseException.getMessage());
     }
 
 }
