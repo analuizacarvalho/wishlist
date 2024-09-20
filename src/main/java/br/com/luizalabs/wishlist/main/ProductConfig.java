@@ -5,7 +5,6 @@ import br.com.luizalabs.wishlist.application.usecases.ProductInteractor;
 import br.com.luizalabs.wishlist.infrastructure.adapters.MessageHelper;
 import br.com.luizalabs.wishlist.infrastructure.gateways.ProductDocumentMapper;
 import br.com.luizalabs.wishlist.infrastructure.gateways.ProductRepositoryGateway;
-import br.com.luizalabs.wishlist.infrastructure.controllers.mapper.ProductDTOMapper;
 import br.com.luizalabs.wishlist.infrastructure.persistence.ProductRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,13 +22,4 @@ public class ProductConfig {
         return new ProductRepositoryGateway(productRepository, productDocumentMapper);
     }
 
-    @Bean
-    ProductDocumentMapper productDocumentMapper() {
-        return new ProductDocumentMapper();
-    }
-
-    @Bean
-    ProductDTOMapper productDTOMapper() {
-        return new ProductDTOMapper();
-    }
  }

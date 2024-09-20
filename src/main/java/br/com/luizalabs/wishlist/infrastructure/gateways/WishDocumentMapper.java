@@ -2,7 +2,9 @@ package br.com.luizalabs.wishlist.infrastructure.gateways;
 
 import br.com.luizalabs.wishlist.domain.entity.Wish;
 import br.com.luizalabs.wishlist.infrastructure.persistence.WishDocument;
+import org.springframework.stereotype.Component;
 
+@Component
 public class WishDocumentMapper {
 
     Wish toWish(WishDocument wishDocument) {

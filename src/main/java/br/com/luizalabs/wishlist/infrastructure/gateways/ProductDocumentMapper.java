@@ -2,7 +2,9 @@ package br.com.luizalabs.wishlist.infrastructure.gateways;
 
 import br.com.luizalabs.wishlist.domain.entity.Product;
 import br.com.luizalabs.wishlist.infrastructure.persistence.ProductDocument;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductDocumentMapper {
 
     Product toProduct(ProductDocument productDocument) {

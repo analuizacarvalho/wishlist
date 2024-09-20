@@ -4,7 +4,6 @@ import br.com.luizalabs.wishlist.application.gateways.ProductGateway;
 import br.com.luizalabs.wishlist.application.gateways.WishGateway;
 import br.com.luizalabs.wishlist.application.usecases.WishInteractor;
 import br.com.luizalabs.wishlist.infrastructure.adapters.MessageHelper;
-import br.com.luizalabs.wishlist.infrastructure.controllers.mapper.WishDTOMapper;
 import br.com.luizalabs.wishlist.infrastructure.gateways.WishDocumentMapper;
 import br.com.luizalabs.wishlist.infrastructure.gateways.WishRepositoryGateway;
 import br.com.luizalabs.wishlist.infrastructure.persistence.WishRepository;
@@ -24,13 +23,4 @@ public class WishConfig {
         return new WishRepositoryGateway(wishRepository, wishDocumentMapper, messageHelper);
     }
 
-    @Bean
-    WishDocumentMapper wishDocumentMapper() {
-        return new WishDocumentMapper();
-    }
-
-    @Bean
-    WishDTOMapper wishDTOMapper() {
-        return new WishDTOMapper();
-    }
  }

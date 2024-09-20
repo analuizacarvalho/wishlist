@@ -3,7 +3,9 @@ package br.com.luizalabs.wishlist.infrastructure.controllers.mapper;
 import br.com.luizalabs.wishlist.domain.entity.User;
 import br.com.luizalabs.wishlist.infrastructure.controllers.dto.RegisterRequest;
 import br.com.luizalabs.wishlist.infrastructure.controllers.dto.RegisterResponse;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserDTOMapper {
 
     public User toUser(RegisterRequest registerRequest) {
