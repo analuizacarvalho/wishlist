@@ -14,12 +14,13 @@ Este é um projeto que utiliza **Spring Boot** para criar uma API REST de gerenc
 
 ## Funcionalidades
 
-- Cadastro de novos produtos
-- Listagem de todos os produtos
-- Busca de um produto por ID
-- Atualização de um produto existente
-- Remoção de um produto
-- (Opcional) Autenticação JWT para proteger endpoints
+- Criação de usuário
+- Autenticação para receber o token de acesso
+- Busca da lista de produtos disponíveis
+- Cadastro de produtos na Wishlist
+- Listagem de todos os produtos da Wishlist
+- Verificação se um produto está na Wishlist
+- Remoção de um produto da Wishlist
 
 ## Execução
 
@@ -60,7 +61,6 @@ Este é um projeto que utiliza **Spring Boot** para criar uma API REST de gerenc
 |--------|---------------------|---------------------------|------------------|
 | GET    | `/api/products`      | Lista todos os produtos  | Sim              |
 
-
 ### Wishlist
 
 | Método | Endpoint                           | Descrição                                                     | Necessario Token |
@@ -69,6 +69,17 @@ Este é um projeto que utiliza **Spring Boot** para criar uma API REST de gerenc
 | GET    | `/api/wishlist/{productId}/exists` | Verifica se um determinado produto está na Wishlist do usuário| Sim              |
 | POST   | `/api/wishlist/{productId}`        | Adiciona um produto na Wishlist do usuário                    | Sim              |
 | DELETE | `/api/wishlist/{productId}`        | Remove um produto da Wishlist do usuário                      | Sim              |
+
+### Observações
+
+Para os endpoint que precisam de autenticação, o token deve ir como **Bearer Token**.
+
+Ex:
+
+Prefixo: Bearer
+
+Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0aGFpYW5lcmliZWlyb0BnbWFpbC5jb20iLCJpc3MiOiJsdWl6YWxhYnMtYXBpIiwiZXhwIjoxNzI2ODA2NzYwfQ.1JnMO4F1f-7wsT5PO2x_xnfQfHSJZi_mVsSfmE4XZ7k
+
 
 ## Configuração do Banco de Dados
 
